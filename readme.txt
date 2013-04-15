@@ -6,7 +6,7 @@ Tested up to: 3.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-An open-source WordPress plugin enabling student-led editing of written work.
+An open-source WordPress plugin enabling student-led editing of written work.  Based on  Alan Tyree's Critical Review Exam System http://www2.austlii.edu.au/~alan/cres.html
 
 == Description ==
 
