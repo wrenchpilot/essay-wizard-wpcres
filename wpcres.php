@@ -2,7 +2,7 @@
 
 /*
   Plugin Name: wpCRES - WordPress Critical Review Exam System
-  Plugin URI: http://www.assessment.gatech.edu/
+  Plugin URI: http://essaywizard.gatech.edu/welcome/about/
   Description: A wordpress implementation of Alan Tyree's Critical Review Exam System
   Author: Shawn Carnley <Shawn.Carnley@gatech.edu>
   Version: 1.0
