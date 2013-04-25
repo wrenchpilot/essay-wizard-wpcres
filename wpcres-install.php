@@ -17,7 +17,7 @@ global $wpdb;
 global $wpcres_db_version;
 
 // Include WordPress ugrade functions
-require_once(ABSPATH. 'wp-admin/includes/upgrade.php');
+require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
 // Set Database version and table name
 $wpcres_db_version = "1.0";
@@ -76,28 +76,32 @@ $sql = "CREATE OR REPLACE VIEW $response_view (
 // Execute the SQL
 dbDelta($sql);
 
+//Prevent settings reset on plugin upgrade or reinstallation
+if (get_option("wpcres_db_version") == FALSE) { // Returns false if not set, if so, set options below
+
 // Add the application options to the wp_options table
-add_option("wpcres_db_version", $wpcres_db_version);
-add_option("wpcres_table_name", $table_name);
-add_option("wpcres_scaffold_table", $scaffold_table);
-add_option("wpcres_response_view", $response_view);
-add_option("wpcres_response_versions",$response_version_table);
+    add_option("wpcres_db_version", $wpcres_db_version);
+    add_option("wpcres_table_name", $table_name);
+    add_option("wpcres_scaffold_table", $scaffold_table);
+    add_option("wpcres_response_view", $response_view);
+    add_option("wpcres_response_versions", $response_version_table);
 
 // Some default settings that can be edited on the settings page.
-add_option("wpcres_admin_name", get_option('blogname'). " Administrator");  //WordPress admin
-add_option("wpcres_admin_email", get_option('admin_email'));  //defaults to wordpress admin email.
-add_option("wpcres_approv_email_enable", TRUE); // Enable approve email by default
-add_option("wpcres_reject_email_enable", TRUE); // Enable reject email by default
-add_option("wpcres_approv_email_subject", "[" . get_bloginfo('title') . "] Essay Approved");
-add_option("wpcres_approv_email_body","Your essay response has been approved.");
-add_option("wpcres_reject_email_subject", "[" . get_bloginfo('title') . "] Essay Rejected");
-add_option("wpcres_reject_email_body","Your essay response has been rejected.");
-add_option('wpcres_user_email_enable', TRUE);
-add_option('wpcres_user_email_subject', "[" . get_bloginfo('title') . "] Essay Submitted");
-add_option('wpcres_user_email_body', "Your essay response has been submitted.");
-add_option("wpcres_atd_dir", WPINC . "/js/tinymce/plugins/AtD");  // Set AtD filesystem path
-add_option("wpcres_atd_url", includes_url()."js/tinymce/plugins/AtD");  //Set AtD URL (needed in case of custom permalink structure
-add_option("wpcres_responses_per_page","200");
-add_option("wpcres_cleanup_options_on_uninstall",0);  // Don't delete options by default upon plugin deactivation
-add_option("wpcres_cleanup_database_on_uninstall",0); // Don't delete database tables by default upon plugin deactivation
+    add_option("wpcres_admin_name", get_option('blogname') . " Administrator");  //WordPress admin
+    add_option("wpcres_admin_email", get_option('admin_email'));  //defaults to wordpress admin email.
+    add_option("wpcres_approv_email_enable", TRUE); // Enable approve email by default
+    add_option("wpcres_reject_email_enable", TRUE); // Enable reject email by default
+    add_option("wpcres_approv_email_subject", "[" . get_bloginfo('title') . "] Essay Approved");
+    add_option("wpcres_approv_email_body", "Your essay response has been approved.");
+    add_option("wpcres_reject_email_subject", "[" . get_bloginfo('title') . "] Essay Rejected");
+    add_option("wpcres_reject_email_body", "Your essay response has been rejected.");
+    add_option('wpcres_user_email_enable', TRUE);
+    add_option('wpcres_user_email_subject', "[" . get_bloginfo('title') . "] Essay Submitted");
+    add_option('wpcres_user_email_body', "Your essay response has been submitted.");
+    add_option("wpcres_atd_dir", WPINC . "/js/tinymce/plugins/AtD");  // Set AtD filesystem path
+    add_option("wpcres_atd_url", includes_url() . "js/tinymce/plugins/AtD");  //Set AtD URL (needed in case of custom permalink structure
+    add_option("wpcres_responses_per_page", "200");
+    add_option("wpcres_cleanup_options_on_uninstall", 0);  // Don't delete options by default upon plugin deactivation
+    add_option("wpcres_cleanup_database_on_uninstall", 0); // Don't delete database tables by default upon plugin deactivation
+}
 ?>
