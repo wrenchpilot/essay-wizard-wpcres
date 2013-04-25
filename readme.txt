@@ -1,4 +1,4 @@
-=== wpCRES (Essay Wizard) ===
+=== Essay Wizard (wpCRES) ===
 Contributors: wrenchpilot
 Tags: critical review examination system, essay wizard
 Requires at least: 3.5
@@ -42,7 +42,7 @@ e.g.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
-= 1.0.2
+= 1.0.2 =
 * Added option check to prevent settings from being reset upon plugin upgrade.
 
 = 1.0.1 =
