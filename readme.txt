@@ -43,7 +43,8 @@ e.g.
 
 == Changelog ==
 = 1.0.1 =
-* Bug fixes (Plugin path and URL constants).
+* Fixed plugin path and URL constants.
+* Added option check to prevent settings from being reset upon plugin upgrade.
 
 = 1.0 =
 * Initial release.
