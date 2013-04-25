@@ -42,6 +42,8 @@ e.g.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+= 1.0.1 =
+* Bug fixes (Plugin path and URL constants).
 
 = 1.0 =
 * Initial release.
