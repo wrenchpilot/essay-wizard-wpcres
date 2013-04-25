@@ -264,7 +264,7 @@ class WPCRES_Response_Table extends WP_List_Table {
             $i = 0;
             foreach ($files as $file) {
                 if ($i <= 5) {
-                    echo "<li class='page_item'><a href='" . WPCRES_URL . "/exports/" . basename($file) . "' target='_new'>" . basename($file) . "</a></li>\r\n";
+                    echo "<li class='page_item'><a href='" . WPCRES_URL . "exports/" . basename($file) . "' target='_new'>" . basename($file) . "</a></li>\r\n";
                     $i++;
                 }
             }

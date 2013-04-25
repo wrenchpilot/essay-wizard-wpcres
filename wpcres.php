@@ -50,8 +50,8 @@ if (version_compare(PHP_VERSION, '5.3', '<')) {
     wp_die('wpCRES can be used only with PHP 5.3+ version');
 }
 
-define('WPCRES_DIR', WP_PLUGIN_DIR . '/wpCRES');
-define('WPCRES_URL', WP_PLUGIN_URL . '/wpCRES');
+define('WPCRES_DIR', plugin_dir_path(__FILE__) );
+define('WPCRES_URL', plugin_dir_url (__FILE__) );
 define('WPCRES_MAIN_PLUGIN_FILE', __FILE__);
 
 // It took me two days to find out I needed to declare this outside the
