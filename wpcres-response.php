@@ -172,7 +172,7 @@ echo "<p>" . $page_object->post_content . "</p>";
                 $submit_val = "Next Question";
                 $disabled = "disabled";
                 ?>
-            <h3>Please respond the following question(s) about your essay.</h3>
+            <h3>Please respond to the following question(s) about your essay.</h3>
             <p>
                 <strong><?php echo (!isset($error)) ? $meta[$curr_question]['scaffold_question'] : $error; ?></strong><br />
                 No  <input type="radio"  name="scaffold_radio" value="0" onclick="scaffold_submit.disabled=false;" />

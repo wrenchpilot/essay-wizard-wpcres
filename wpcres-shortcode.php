@@ -6,7 +6,6 @@
  * This code implements a WordPress shortcode to display a wpCRES assignment.
  * 
  * @author Shawn Carnley <Shawn.Carnley@gatech.edu>
- * @version 1.0
  * @param integer $atts Custom post ID
  * @return string $output 
  * @package wpCRES

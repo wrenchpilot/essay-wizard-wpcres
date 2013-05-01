@@ -8,7 +8,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 An open-source WordPress plugin enabling student-led editing of written work.  
 
-
 == Description ==
 
 STEP 1: BUILD ASSIGNMENT
@@ -35,19 +34,20 @@ STEP 3: DOWNLOAD RESPONSES
 
 This section describes how to install the plugin and get it working.
 
-e.g.
-
 1. Upload and unzip `essay-wizard-wpcres.zip` to the `/wp-content/plugins/` directory
 
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+= 1.0.3 =
+* Bug Fixes.
+* Fixed typo.
+
 = 1.0.2 =
 * Added option check to prevent settings from being reset upon plugin upgrade.
 
 = 1.0.1 =
 * Fixed plugin path and URL constants.
-
 
 = 1.0 =
 * Initial release.

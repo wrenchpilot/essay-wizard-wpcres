@@ -95,12 +95,9 @@ function shortcodes_in_js() {
     </script>
 
 <?php } ?>
-    
-    
 <?php 
 // create dropdown if post_type = page
 if (get_current_post_type() == 'page'){
 wpcres_dropdown();
 }
-
 ?>
