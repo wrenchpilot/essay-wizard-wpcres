@@ -39,6 +39,9 @@ This section describes how to install the plugin and get it working.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+= 1.0.4.1 =
+* More layout fixes I forgot to add in 1.0.4.
+
 = 1.0.4 =
 * Layout fixes on settings page.
 
