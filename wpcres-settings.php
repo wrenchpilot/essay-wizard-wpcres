@@ -169,7 +169,7 @@ function render_settings_page() {
           </div>
           
           <div id="atdpluginpathdiv" class="postbox">
-            <div class="handlediv" title="Click to toggle"><br></div><h3 class="hndle"><h3><span>After the Deadline Editor Plugin Path</span></h3>
+            <div class="handlediv" title="Click to toggle"><br></div><h3 class="hndle"><span>After the Deadline Editor Plugin Path</span></h3>
             <div class="inside">
               <input type="text" size="55" name="wpcres_atd_dir" value="<?php echo $atd_dir; ?>" />
             </div>
