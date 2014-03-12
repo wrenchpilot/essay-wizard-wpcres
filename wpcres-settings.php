@@ -5,16 +5,17 @@
  * This file implements the applicating settings page.
  *
  * @author Shawn Carnley <Shawn.Carnley@gatech.edu>
- * @version 1.0
+ * @version 1.0.5
  * @package wpCRES
- */
+ */ 
 
 add_action('admin_menu', function() {
             add_submenu_page('edit.php?post_type=wpcres_assignment', 'Settings', 'Settings', 'manage_options', 'wpcres-settings', 'render_settings_page');
+		  register_setting('wpcres_settings','wpcres-settings-array');
         });
 
 // Save the settings        
-if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'update') {
+if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'update' && $_REQUEST['page'] == 'wpcres-settings') {
 
     update_option('wpcres_admin_name', $_REQUEST['wpcres_admin_name']);
     update_option('wpcres_admin_email', $_REQUEST['wpcres_admin_email']);
