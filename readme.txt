@@ -39,6 +39,9 @@ This section describes how to install the plugin and get it working.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+= 1.0.5.1 =
+* Minor update to change the default sort order of responses.
+
 = 1.0.5 =
 * Fixed major bug on settings page.  Invalid form logic could cause all the settings to be wiped.
 

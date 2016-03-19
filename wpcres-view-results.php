@@ -305,7 +305,7 @@ class WPCRES_Response_Table extends WP_List_Table {
 
         function usort_reorder($a, $b) {
             $orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'datetime'; //If no sort, default to date
-            $order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc'; //If no order, default to asc
+            $order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'desc'; //If no order, default to desc
             $result = strcmp($a[$orderby], $b[$orderby]); //Determine sort order
             return ($order === 'asc') ? $result : -$result; //Send final sort direction to usort
         }
