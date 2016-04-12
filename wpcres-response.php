@@ -84,7 +84,7 @@ if (isset($_POST['Begin']) && isset($_POST['wpcres_nonce']) &&
         'datetime' => $current_user->date_time, // current date/time
         'userIP' => $current_user->user_ip); // user's IP address
 
-    $wpdb->insert($table_name, $data);
+    $result = $wpdb->insert($table_name, $data);
     $insertID = $wpdb->insert_id;
 
     //Save a version

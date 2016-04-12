@@ -225,7 +225,7 @@ class WPCRES_Response_Table extends WP_List_Table {
 
             // Export HTML
             $fh = @fopen("$dir/$filename.html", 'w');
-            fputs($fh, "<html>\r\n<head>\r\n<title>$filename</title>\r\n</head>\r\n<body>\r\n");
+            fputs($fh, "<!doctype html><html>\r\n<meta charset=\"UTF-8\"><head>\r\n<title>$filename</title>\r\n</head>\r\n<body>\r\n");
             $i = 0;
             foreach ($results as $data) {
                 $rSQL = "SELECT * FROM $scaffold_table WHERE `responseID` = '". $data['responseID'] ."'";
@@ -305,7 +305,7 @@ class WPCRES_Response_Table extends WP_List_Table {
 
         function usort_reorder($a, $b) {
             $orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'datetime'; //If no sort, default to date
-            $order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'desc'; //If no order, default to desc
+            $order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc'; //If no order, default to asc
             $result = strcmp($a[$orderby], $b[$orderby]); //Determine sort order
             return ($order === 'asc') ? $result : -$result; //Send final sort direction to usort
         }
