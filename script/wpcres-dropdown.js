@@ -10,6 +10,7 @@ tinymce.PluginManager.add( 'wpcres' , function( editor ){
 	//Add button
     editor.addButton('wpcres', {
         type: 'listbox',
+		max_width: 300,
         text: 'wpCRES Assignments',
         onselect: function(ed) {
             tinymce.execCommand('mceInsertContent',false,'[wpcres id="'+this.value()+'"]');

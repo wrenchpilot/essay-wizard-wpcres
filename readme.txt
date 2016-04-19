@@ -39,6 +39,9 @@ This section describes how to install the plugin and get it working.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+= 1.0.6.1 =
+* Set max width for dropdown menu in editor. 
+
 = 1.0.6 =
 * Implement TinyMCE 4.0 API for wpCRES assignment dropdown menu
 
