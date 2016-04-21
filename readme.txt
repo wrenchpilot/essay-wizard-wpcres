@@ -39,6 +39,9 @@ This section describes how to install the plugin and get it working.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+= 1.0.6.2 =
+* Set minimum version requirement to WordPress 3.9+ 
+
 = 1.0.6.1 =
 * Set max width for dropdown menu in editor. 
 
