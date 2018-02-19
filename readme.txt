@@ -2,7 +2,7 @@
 Contributors: wrenchpilot
 Tags: critical review examination system, essay wizard
 Requires at least: 3.5
-Tested up to: 4.9.2
+Tested up to: 4.9.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,10 @@ This section describes how to install the plugin and get it working.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+= 1.0.6.3 =
+* Fixed TinyMCE shortcode dropdown
+* Updated Tested up to: 4.9.4
+
 = 1.0.6.2 =
 * Set minimum version requirement to WordPress 3.9+ 
 
