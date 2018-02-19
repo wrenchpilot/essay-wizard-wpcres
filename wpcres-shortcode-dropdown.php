@@ -98,7 +98,7 @@ function shortcodes_in_js() {
 
 <?php
 	// create dropdown if post_type = page
-	if ( get_current_post_type() == 'wpcres_assignment' ) {
+	if ( get_current_post_type() == 'page' ) {
 		wpcres_dropdown();
 	}
 ?>
