@@ -6,7 +6,7 @@
   Description: A wordpress implementation of Alan Tyree's Critical Review Exam System. http://www2.austlii.edu.au/~alan/cres.html
   Author: James Shawn Carnley <Shawn.Carnley@gatech.edu>
   Version: 1.0.6.3
-  Author URI: http://www.assessment.gatech.edu/
+  Author URI: http://www.academiceffectiveness.gatech.edu/
  */
 
 /* wpCRES
