@@ -86,18 +86,21 @@ if (isset($_POST['Begin']) && isset($_POST['wpcres_nonce']) &&
 
     $result = $wpdb->insert($table_name, $data);
     $insertID = $wpdb->insert_id;
-
-    //Save a version
-    $version_data = array(
-        'versionID' => '', // auto-generated id
-        'responseID' => $insertID, // use previous insert id
-        'userID' => $current_user->ID, // user's wordpress id
-        'wpcresID' => $wpcresID, // unique id for the wpcres assignment
-        'essay' => $wpcres_response, // user essay response
-        'datetime' => $current_user->date_time, // current date/time
-        'userIP' => $current_user->user_ip); // user's IP address
-    $wpdb->insert($response_version_table, $version_data);
-
+    
+    if ($insertID != 0){ //Make sure the insertID is set!
+        //Save a version
+        $version_data = array(
+            'versionID' => '', // auto-generated id
+            'responseID' => $insertID, // use previous insert id
+            'userID' => $current_user->ID, // user's wordpress id
+            'wpcresID' => $wpcresID, // unique id for the wpcres assignment
+            'essay' => $wpcres_response, // user essay response
+            'datetime' => $current_user->date_time, // current date/time
+            'userIP' => $current_user->user_ip); // user's IP address
+        $wpdb->insert($response_version_table, $version_data);
+    } else {
+        throw_application_error();
+    }
 // Process the scaffolding questions
 } elseif (isset($_POST['scaffold_radio']) && isset($_POST['wpcres_nonce']) &&
         wp_verify_nonce($_POST['wpcres_nonce'], 'wpcres_nonce')) {
@@ -139,18 +142,19 @@ if (isset($_POST['Begin']) && isset($_POST['wpcres_nonce']) &&
     $where = array('responseID' => $insertID);  //Use the last insertID to update record
 
     $wpdb->update($table_name, $data, $where);
-
-    //Save a version
-    $version_data = array(
-        'versionID' => '', // auto-generated id
-        'responseID' => $insertID, // use previous insert id
-        'userID' => $current_user->ID, // user's wordpress id
-        'wpcresID' => $wpcresID, // unique id for the wpcres assignment
-        'essay' => $wpcres_response, // user essay response
-        'datetime' => $current_user->date_time, // current date/time
-        'userIP' => $current_user->user_ip); // user's IP address
-    $wpdb->insert($response_version_table, $version_data);
-
+     
+    if ($insertID != 0){ //Make sure the insertID is set!
+        //Save a version
+        $version_data = array(
+            'versionID' => '', // auto-generated id
+            'responseID' => $insertID, // use previous insert id
+            'userID' => $current_user->ID, // user's wordpress id
+            'wpcresID' => $wpcresID, // unique id for the wpcres assignment
+            'essay' => $wpcres_response, // user essay response
+            'datetime' => $current_user->date_time, // current date/time
+            'userIP' => $current_user->user_ip); // user's IP address
+        $wpdb->insert($response_version_table, $version_data);
+    }
     // Final update
     if (isset($_POST['final']) && $final == 1)
         $wpdb->update($table_name, array('status' => 'Submitted'), $where);
@@ -268,5 +272,13 @@ function get_meta_data($id) {
     $meta = get_post_meta($id);
     $meta = maybe_unserialize($meta['wpcres_question'][0]);
     return $meta;
+}
+
+/*
+ * Throw application errors
+ * @return WP_Error
+ */
+function throw_application_error(){
+    return new WP_Error( 'err_responseID', "Database Error!  Unable to retrieve response ID!" );
 }
 ?>

@@ -39,6 +39,9 @@ This section describes how to install the plugin and get it working.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+= 1.0.6.4 =
+* Attempt to prevent responseID of "0" from being inserted into version table, throw application error instead.  Still not sure how this happens...
+
 = 1.0.6.3 =
 * Fixed TinyMCE shortcode dropdown
 * Updated Tested up to: 4.9.4

@@ -5,7 +5,7 @@
   Plugin URI: http://essaywizard.gatech.edu/welcome/about/
   Description: A wordpress implementation of Alan Tyree's Critical Review Exam System. http://www2.austlii.edu.au/~alan/cres.html
   Author: James Shawn Carnley <Shawn.Carnley@gatech.edu>
-  Version: 1.0.6.3
+  Version: 1.0.6.4
   Author URI: http://www.academiceffectiveness.gatech.edu/
  */
 
