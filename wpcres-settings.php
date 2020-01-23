@@ -7,16 +7,15 @@
  * @author Shawn Carnley <Shawn.Carnley@gatech.edu>
  * @version 1.0.5
  * @package wpCRES
- */ 
+ */
 
-add_action('admin_menu', function() {
-            add_submenu_page('edit.php?post_type=wpcres_assignment', 'Settings', 'Settings', 'manage_options', 'wpcres-settings', 'render_settings_page');
-		  register_setting('wpcres_settings','wpcres-settings-array');
-        });
+add_action('admin_menu', function () {
+    add_submenu_page('edit.php?post_type=wpcres_assignment', 'Settings', 'Settings', 'manage_options', 'wpcres-settings', 'render_settings_page');
+    register_setting('wpcres_settings', 'wpcres-settings-array');
+});
 
-// Save the settings        
+// Save the settings
 if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'update' && $_REQUEST['page'] == 'wpcres-settings') {
-
     update_option('wpcres_admin_name', $_REQUEST['wpcres_admin_name']);
     update_option('wpcres_admin_email', $_REQUEST['wpcres_admin_email']);
     update_option('wpcres_approv_email_enable', $_REQUEST['wpcres_approv_email_enable']);
@@ -41,8 +40,8 @@ function render_settings_page() {
     $scaffold_table = get_option('wpcres_scaffold_table', $wpdb->prefix . "wpcres_scaffold");
     $admin_name = get_option("wpcres_admin_name", get_option('admin_name'));
     $admin_email = get_option("wpcres_admin_email", get_option('admin_email'));
-    $approv_enable = get_option('wpcres_approv_email_enable', TRUE);
-    $reject_enable = get_option('wpcres_reject_email_enable', TRUE);
+    $approv_enable = get_option('wpcres_approv_email_enable', true);
+    $reject_enable = get_option('wpcres_reject_email_enable', true);
     $approv_subject = get_option('wpcres_approv_email_subject', "[" . get_bloginfo('title') . "] Essay Approved");
     $reject_subject = get_option('wpcres_reject_email_subject', "[" . get_bloginfo('title') . "] Essay Rejected");
     $approv_body = get_option('wpcres_approv_email_body', "Your essay response has been approved.");
@@ -50,11 +49,11 @@ function render_settings_page() {
     $atd_dir = get_option('wpcres_atd_dir', WPINC . "/js/tinymce/plugins/AtD");
     $atd_url = get_option('wpcres_atd_url', includes_url() . "js/tinymce/plugins/AtD");
     $wpcres_responses_per_page = get_option('wpcres_responses_per_page', '200');
-    $wpcres_user_email_enable = get_option('wpcres_user_email_enable', TRUE);
+    $wpcres_user_email_enable = get_option('wpcres_user_email_enable', true);
     $wpcres_user_email_subject = get_option('wpcres_user_email_subject', "[" . get_bloginfo('title') . "] Essay Submitted");
     $wpcres_user_email_body = get_option('wpcres_user_email_body', 'Your essay has been submitted.');
-    $wpcres_cleanup_options_on_uninstall = get_option('wpcres_cleanup_options_on_uninstall', FALSE);
-    $wpcres_cleanup_database_on_uninstall = get_option('wpcres_cleanup_database_on_uninstall', FALSE);
+    $wpcres_cleanup_options_on_uninstall = get_option('wpcres_cleanup_options_on_uninstall', false);
+    $wpcres_cleanup_database_on_uninstall = get_option('wpcres_cleanup_database_on_uninstall', false);
 
     // Check to see if the AtD tinyMCE plugin is installed
     $is_atd_installed = is_dir($atd_dir);
@@ -84,8 +83,7 @@ function render_settings_page() {
                 'gecko_spellcheck' => 0
                 ));
         $settings = array_merge($settings, $atd_settings);
-    }
-    ?>
+    } ?>
 
 <div class="wrap">
   <div id="icon-options-general" class="icon32"></div>
@@ -95,112 +93,132 @@ function render_settings_page() {
     <form method="post" action="" id="wpcres_settings_form" name="wpcres_settings_form">
       <div class="postbox-container" style="width: 50%;">
         <div id="normal-sortables" class="meta-box-sortables">
-        
+
           <div id="adminnamediv" class="postbox">
-            <div class="handlediv" title="Click to toggle"><br></div><h3 class="hndle"><span>Admin Name</span></h3>
+            <div class="handlediv" title="Click to toggle"><br></div>
+            <h3 class="hndle"><span>Admin Name</span></h3>
             <div class="inside">
-              <input type="text" size="55" name="wpcres_admin_name" value="<?php echo $admin_name; ?>" />
+              <input type="text" size="55" name="wpcres_admin_name"
+                value="<?php echo $admin_name; ?>" />
             </div>
           </div>
-          
+
           <div id="adminemaildiv" class="postbox">
-            <div class="handlediv" title="Click to toggle"><br></div><h3 class="hndle"><span>Admin E-mail</span></h3>
+            <div class="handlediv" title="Click to toggle"><br></div>
+            <h3 class="hndle"><span>Admin E-mail</span></h3>
             <div class="inside">
-              <input type="text" size="55" name="wpcres_admin_email" value="<?php echo $admin_email; ?>" />
+              <input type="text" size="55" name="wpcres_admin_email"
+                value="<?php echo $admin_email; ?>" />
             </div>
           </div>
-          
+
           <div id="aproveletterdiv" class="postbox">
-            <div class="handlediv" title="Click to toggle"><br></div><h3 class="hndle"><span>Approval Letter</span></h3>
+            <div class="handlediv" title="Click to toggle"><br></div>
+            <h3 class="hndle"><span>Approval Letter</span></h3>
             <div class="inside"> Enable
-              <input type="radio" value="1" name="wpcres_approv_email_enable" <?php echo ($approv_enable == TRUE) ? "checked" : ""; ?> />
+              <input type="radio" value="1" name="wpcres_approv_email_enable" <?php echo ($approv_enable == true) ? "checked" : ""; ?>
+              />
               Disable
-              <input type="radio" value="0" name="wpcres_approv_email_enable" <?php echo ($approv_enable == FALSE) ? "checked" : ""; ?>/>
+              <input type="radio" value="0" name="wpcres_approv_email_enable" <?php echo ($approv_enable == false) ? "checked" : ""; ?>/>
               <h4>Subject</h4>
-              <input type="text" size="55" name="wpcres_approv_email_subject" value="<?php echo $approv_subject; ?>" />
+              <input type="text" size="55" name="wpcres_approv_email_subject"
+                value="<?php echo $approv_subject; ?>" />
               <div id="meta_inner">
                 <?php
-                        wp_editor($approv_body, 'wpcres_approv_email_body', array_merge($settings, array('textarea_name' => 'wpcres_approv_email_body')));
-                        ?>
+                        wp_editor($approv_body, 'wpcres_approv_email_body', array_merge($settings, array('textarea_name' => 'wpcres_approv_email_body'))); ?>
                 <p><strong>Shortcodes:</strong> [name], [essay_title], [essay]</p>
               </div>
             </div>
           </div>
-          
+
           <div id="rejectletterdiv" class="postbox">
-            <div class="handlediv" title="Click to toggle"><br></div><h3 class="hndle"><span>Rejection Letter</span></h3>
-            <div class="inside"> 
+            <div class="handlediv" title="Click to toggle"><br></div>
+            <h3 class="hndle"><span>Rejection Letter</span></h3>
+            <div class="inside">
               Enable
-              <input type="radio" value="1" name="wpcres_reject_email_enable" <?php echo ($reject_enable == TRUE) ? "checked" : ""; ?> />
+              <input type="radio" value="1" name="wpcres_reject_email_enable" <?php echo ($reject_enable == true) ? "checked" : ""; ?>
+              />
               Disable
-              <input type="radio" value="0" name="wpcres_reject_email_enable" <?php echo ($reject_enable == FALSE) ? "checked" : ""; ?>/>
+              <input type="radio" value="0" name="wpcres_reject_email_enable" <?php echo ($reject_enable == false) ? "checked" : ""; ?>/>
               <h4>Subject</h4>
-              <input type="text" size="55" name="wpcres_reject_email_subject" value="<?php echo $reject_subject; ?>" />
+              <input type="text" size="55" name="wpcres_reject_email_subject"
+                value="<?php echo $reject_subject; ?>" />
               <div id="meta_inner">
                 <?php
-                        wp_editor($reject_body, 'wpcres_reject_email_body', array_merge($settings, array('textarea_name' => 'wpcres_reject_email_body')));
-                        ?>
+                        wp_editor($reject_body, 'wpcres_reject_email_body', array_merge($settings, array('textarea_name' => 'wpcres_reject_email_body'))); ?>
                 <p><strong>Shortcodes:</strong> [name], [essay_title], [essay]</p>
               </div>
             </div>
           </div>
-          
+
           <div id="usersubmitletterdiv" class="postbox">
-            <div class="handlediv" title="Click to toggle"><br></div><h3 class="hndle"><span>User Submission Letter</span></h3>
+            <div class="handlediv" title="Click to toggle"><br></div>
+            <h3 class="hndle"><span>User Submission Letter</span></h3>
             <div class="inside"> Enable
-              <input type="radio" value="1" name="wpcres_user_email_enable" <?php echo ($wpcres_user_email_enable == TRUE) ? "checked" : ""; ?> />
+              <input type="radio" value="1" name="wpcres_user_email_enable" <?php echo ($wpcres_user_email_enable == true) ? "checked" : ""; ?>
+              />
               Disable
-              <input type="radio" value="0" name="wpcres_user_email_enable" <?php echo ($wpcres_user_email_enable == FALSE) ? "checked" : ""; ?>/>
+              <input type="radio" value="0" name="wpcres_user_email_enable" <?php echo ($wpcres_user_email_enable == false) ? "checked" : ""; ?>/>
               <h4>Subject</h4>
-              <input type="text" size="55" name="wpcres_user_email_subject" value="<?php echo $wpcres_user_email_subject; ?>" />
+              <input type="text" size="55" name="wpcres_user_email_subject"
+                value="<?php echo $wpcres_user_email_subject; ?>" />
               <div id="meta_inner">
                 <?php
-                        wp_editor($wpcres_user_email_body, 'wpcres_user_email_body', array_merge($settings, array('textarea_name' => 'wpcres_user_email_body')));
-                        ?>
+                        wp_editor($wpcres_user_email_body, 'wpcres_user_email_body', array_merge($settings, array('textarea_name' => 'wpcres_user_email_body'))); ?>
                 <p><strong>Shortcodes:</strong> [name], [essay_title], [essay]</p>
               </div>
             </div>
           </div>
-          
+
           <div id="responseperpagediv" class="postbox">
-            <div class="handlediv" title="Click to toggle"><br></div><h3 class="hndle"><span>Respsones Per Page</span></h3>
+            <div class="handlediv" title="Click to toggle"><br></div>
+            <h3 class="hndle"><span>Respsones Per Page</span></h3>
             <div class="inside">
-              <input type="text" size="55" name="wpcres_responses_per_page" value="<?php echo $wpcres_responses_per_page; ?>" />
+              <input type="text" size="55" name="wpcres_responses_per_page"
+                value="<?php echo $wpcres_responses_per_page; ?>" />
             </div>
           </div>
-          
+
           <div id="atdpluginpathdiv" class="postbox">
-            <div class="handlediv" title="Click to toggle"><br></div><h3 class="hndle"><span>After the Deadline Editor Plugin Path</span></h3>
+            <div class="handlediv" title="Click to toggle"><br></div>
+            <h3 class="hndle"><span>After the Deadline Editor Plugin Path</span></h3>
             <div class="inside">
-              <input type="text" size="55" name="wpcres_atd_dir" value="<?php echo $atd_dir; ?>" />
+              <input type="text" size="55" name="wpcres_atd_dir"
+                value="<?php echo $atd_dir; ?>" />
             </div>
           </div>
-          
+
           <div id="atdpluginurldiv" class="postbox">
-            <div class="handlediv" title="Click to toggle"><br></div><h3 class="hndle"><span>After the Deadline Editor Plugin URL</span></h3>
+            <div class="handlediv" title="Click to toggle"><br></div>
+            <h3 class="hndle"><span>After the Deadline Editor Plugin URL</span></h3>
             <div class="inside">
-              <input type="text" size="55" name="wpcres_atd_url" value="<?php echo $atd_url; ?>" />
+              <input type="text" size="55" name="wpcres_atd_url"
+                value="<?php echo $atd_url; ?>" />
             </div>
           </div>
-          
+
           <div id="cleanoptionsdiv" class="postbox">
-            <div class="handlediv" title="Click to toggle"><br></div><h3 class="hndle"><span>Cleanup wpCRES Options On Uninstall</span></h3>
+            <div class="handlediv" title="Click to toggle"><br></div>
+            <h3 class="hndle"><span>Cleanup wpCRES Options On Uninstall</span></h3>
             <div class="inside"> Enable
-              <input type="radio" value="1" name="wpcres_cleanup_options_on_uninstall" <?php echo ($wpcres_cleanup_options_on_uninstall == TRUE) ? "checked" : ""; ?> />
+              <input type="radio" value="1" name="wpcres_cleanup_options_on_uninstall" <?php echo ($wpcres_cleanup_options_on_uninstall == true) ? "checked" : ""; ?>
+              />
               Disable
-              <input type="radio" value="0" name="wpcres_cleanup_options_on_uninstall" <?php echo ($wpcres_cleanup_options_on_uninstall == FALSE) ? "checked" : ""; ?>/>
+              <input type="radio" value="0" name="wpcres_cleanup_options_on_uninstall" <?php echo ($wpcres_cleanup_options_on_uninstall == false) ? "checked" : ""; ?>/>
             </div>
           </div>
-          
+
           <div id="cleandatadiv" class="postbox">
-            <div class="handlediv" title="Click to toggle"><br></div><h3 class="hndle"><span>Cleanup wpCRES Data On Uninstall</span></h3>
+            <div class="handlediv" title="Click to toggle"><br></div>
+            <h3 class="hndle"><span>Cleanup wpCRES Data On Uninstall</span></h3>
             <div class="inside"> Enable
-              <input type="radio" value="1" name="wpcres_cleanup_database_on_uninstall" <?php echo ($wpcres_cleanup_database_on_uninstall == TRUE) ? "checked" : ""; ?> />
+              <input type="radio" value="1" name="wpcres_cleanup_database_on_uninstall" <?php echo ($wpcres_cleanup_database_on_uninstall == true) ? "checked" : ""; ?>
+              />
               Disable
-              <input type="radio" value="0" name="wpcres_cleanup_database_on_uninstall" <?php echo ($wpcres_cleanup_database_on_uninstall == FALSE) ? "checked" : ""; ?>/>
+              <input type="radio" value="0" name="wpcres_cleanup_database_on_uninstall" <?php echo ($wpcres_cleanup_database_on_uninstall == false) ? "checked" : ""; ?>/>
             </div>
           </div>
-          
+
           <input type="hidden" name="page" value="wpcres-settings" />
           <input type="hidden" name="post_type" value="wpcres_assignment" />
           <?php settings_fields('wpcres_settings'); ?>
@@ -210,4 +228,5 @@ function render_settings_page() {
     </form>
   </div>
 </div>
-<?php } ?>
+<?php
+}

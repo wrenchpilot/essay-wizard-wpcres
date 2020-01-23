@@ -2,9 +2,9 @@
 
 /*
  * uninstall.php
- * 
+ *
  * Clean up the WordPress database on uninstall
- * 
+ *
  * @author Shawn Carnley <Shawn.Carnley@gatech.edu>
  * @version 1.0
  * @package wpCRES
@@ -13,10 +13,11 @@
 // Check that code was called from WordPress with uninstallation
 // constant declared
 
-if (!defined('WP_UNINSTALL_PLUGIN'))
+if (!defined('WP_UNINSTALL_PLUGIN')) {
     exit();
+}
 
-if (get_option('wpcres_cleanup_database_on_uninstall') == TRUE) {
+if (get_option('wpcres_cleanup_database_on_uninstall') == true) {
     $table_names = array(
         get_option("wpcres_table_name"),
         get_option("wpcres_scaffold_table"),
@@ -24,12 +25,12 @@ if (get_option('wpcres_cleanup_database_on_uninstall') == TRUE) {
         get_option("wpcres_response_versions")
     );
 
-// Drop the tables;
+    // Drop the tables;
     array_walk($table_names, 'drop_tables');
 }
 
 // Check if options exist and delete them if present
-if (get_option('wpcres_cleanup_options_on_uninstall') == TRUE) {
+if (get_option('wpcres_cleanup_options_on_uninstall') == true) {
     // Database Table Names
     delete_option('wpcres_db_version');
     delete_option('wpcres_table_name');
@@ -61,5 +62,3 @@ function drop_tables($table) {
     $sql = "DROP TABLE IF EXISTS " . $table;
     $wpdb->query($sql);
 }
-
-?>

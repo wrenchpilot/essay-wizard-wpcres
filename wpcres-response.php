@@ -1,10 +1,10 @@
 <?php
 /*
  * wpcres-response-popup.php
- * 
+ *
  * This file implements the user response survey and stores results in a custom
  * WordPress table that was created upon plugin activation.
- * 
+ *
  * @author Shawn Carnley <Shawn.Carnley@gatech.edu>
  * @version 1.0
  * @package wpCRES
@@ -71,7 +71,6 @@ $wpcres_response = str_replace("'", "&#39;", stripslashes($wpcres_response));
 // Initial page load.
 if (isset($_POST['Begin']) && isset($_POST['wpcres_nonce']) &&
         wp_verify_nonce($_POST['wpcres_nonce'], 'wpcres_nonce')) {
-
     $curr_question = 0;
     $next_question = $curr_question + 1;
 
@@ -87,7 +86,7 @@ if (isset($_POST['Begin']) && isset($_POST['wpcres_nonce']) &&
     $result = $wpdb->insert($table_name, $data);
     $insertID = $wpdb->insert_id;
     
-    if ($insertID != 0){ //Make sure the insertID is set!
+    if ($insertID != 0) { //Make sure the insertID is set!
         //Save a version
         $version_data = array(
             'versionID' => '', // auto-generated id
@@ -101,10 +100,9 @@ if (isset($_POST['Begin']) && isset($_POST['wpcres_nonce']) &&
     } else {
         throw_application_error();
     }
-// Process the scaffolding questions
+    // Process the scaffolding questions
 } elseif (isset($_POST['scaffold_radio']) && isset($_POST['wpcres_nonce']) &&
         wp_verify_nonce($_POST['wpcres_nonce'], 'wpcres_nonce')) {
-
     if ($scaffold_radio == $meta[$curr_question]['scaffold_answer']) {
 
         //Save the response
@@ -129,11 +127,10 @@ if (isset($_POST['Begin']) && isset($_POST['wpcres_nonce']) &&
         $wpdb->insert($scaffold_table, $data);
     }
 
-// Process the essay response
+    // Process the essay response
 } elseif (isset($_POST['wpcres_response']) && isset($_POST['insertID']) &&
         isset($_POST['wpcres_nonce']) &&
         wp_verify_nonce($_POST['wpcres_nonce'], 'wpcres_nonce')) {
-
     $curr_question = $next_question; //extracted from $_POST
     $next_question = $curr_question + 1;
 
@@ -143,7 +140,7 @@ if (isset($_POST['Begin']) && isset($_POST['wpcres_nonce']) &&
 
     $wpdb->update($table_name, $data, $where);
      
-    if ($insertID != 0){ //Make sure the insertID is set!
+    if ($insertID != 0) { //Make sure the insertID is set!
         //Save a version
         $version_data = array(
             'versionID' => '', // auto-generated id
@@ -156,8 +153,9 @@ if (isset($_POST['Begin']) && isset($_POST['wpcres_nonce']) &&
         $wpdb->insert($response_version_table, $version_data);
     }
     // Final update
-    if (isset($_POST['final']) && $final == 1)
+    if (isset($_POST['final']) && $final == 1) {
         $wpdb->update($table_name, array('status' => 'Submitted'), $where);
+    }
 }
 ?>
 <?php
@@ -168,60 +166,74 @@ $page_object = get_page($id);
 echo "<p>" . $page_object->post_content . "</p>";
 ?>
 
-<?php if (!isset($_POST['final'])) { ?> 
-    <form name="scaffold_question_form" method="post" enctype="multipart/form-data" action="" id="scaffold_question_form">
-        <p>
-            <?php if ($curr_question <= $meta_count - 1) { ?>
-                <?php
+<?php if (!isset($_POST['final'])) { ?>
+<form name="scaffold_question_form" method="post" enctype="multipart/form-data" action="" id="scaffold_question_form">
+    <p>
+        <?php if ($curr_question <= $meta_count - 1) { ?>
+        <?php
                 $submit_val = "Next Question";
                 $disabled = "disabled";
                 ?>
-            <h3>Please respond to the following question(s) about your essay.</h3>
-            <p>
-                <strong><?php echo (!isset($error)) ? $meta[$curr_question]['scaffold_question'] : $error; ?></strong><br />
-                No  <input type="radio"  name="scaffold_radio" value="0" onclick="scaffold_submit.disabled=false;" />
-                Yes <input type="radio"  name="scaffold_radio" value="1" onclick="scaffold_submit.disabled=false;" />
-            </p>
-            <input type="hidden" name="next_question" value="<?php echo $next_question; ?>" />
-            <input type='hidden' name='wpcres_response' value='<?php echo $wpcres_response; ?>' />
+        <h3>Please respond to the following question(s) about your essay.</h3>
+        <p>
+            <strong><?php echo (!isset($error)) ? $meta[$curr_question]['scaffold_question'] : $error; ?></strong><br />
+            No <input type="radio" name="scaffold_radio" value="0" onclick="scaffold_submit.disabled=false;" />
+            Yes <input type="radio" name="scaffold_radio" value="1" onclick="scaffold_submit.disabled=false;" />
+        </p>
+        <input type="hidden" name="next_question"
+            value="<?php echo $next_question; ?>" />
+        <input type='hidden' name='wpcres_response'
+            value='<?php echo $wpcres_response; ?>' />
         <?php } else { ?>
-            <h3>Final Followup</h3>
-            <p><strong><?php echo get_post_meta($wpcresID, 'wpcres_final_followup', true); ?></strong></p><br>
-            <p>Please make your final edits to your answer below before submitting your final response.</p>
-            <?php $submit_val = "Sumbit Final Response"; ?>
-            <?php wp_editor($wpcres_response, 'wpcres_response', $settings); ?>
-            <input type="hidden" name="final" value="1" />
-            <?php $disabled = ""; ?>
+        <h3>Final Followup</h3>
+        <p><strong><?php echo get_post_meta($wpcresID, 'wpcres_final_followup', true); ?></strong>
+        </p><br>
+        <p>Please make your final edits to your answer below before submitting your final response.</p>
+        <?php $submit_val = "Sumbit Final Response"; ?>
+        <?php wp_editor($wpcres_response, 'wpcres_response', $settings); ?>
+        <input type="hidden" name="final" value="1" />
+        <?php $disabled = ""; ?>
         <?php } ?>
-        <input type="hidden" name="insertID" value="<?php echo $insertID; ?>" />
-        <input type="hidden" name="curr_question" value="<?php echo $curr_question; ?>" />
-        <input type='hidden' name='page_id' value='<?php echo $page_id; ?>' />
-        <input type='hidden' name='wpcresID' value='<?php echo $wpcresID; ?>' />
+        <input type="hidden" name="insertID"
+            value="<?php echo $insertID; ?>" />
+        <input type="hidden" name="curr_question"
+            value="<?php echo $curr_question; ?>" />
+        <input type='hidden' name='page_id'
+            value='<?php echo $page_id; ?>' />
+        <input type='hidden' name='wpcresID'
+            value='<?php echo $wpcresID; ?>' />
         <?php wp_nonce_field('wpcres_nonce', 'wpcres_nonce'); ?><br /><br />
-        <input type="submit" name="scaffold_submit" id="scaffold_submit" value="<?php echo $submit_val; ?>" <?php echo $disabled; ?> />
-    </form>
+        <input type="submit" name="scaffold_submit" id="scaffold_submit"
+            value="<?php echo $submit_val; ?>" <?php echo $disabled; ?> />
+</form>
 
-    <?php if ($curr_question <= $meta_count - 1) { ?>
-        <hr />
-        <h3>Your Answer</h3>
-        <p>To edit your answer, please revise the text below and click "Save Essay Response".<br><strong>You must click "Save Essay Response" to save any changes to your essay.</strong></p>
-        <form name="scaffold_edit_response_form" method="post" enctype="multipart/form-data" action="" id="scaffold_edit_response_form">
-            <input type="submit" name="essay_submit" value="Save Essay Response" />
-            <?php wp_editor($wpcres_response, 'wpcres_response', $settings); ?>
-            <?php wp_nonce_field('wpcres_nonce', 'wpcres_nonce'); ?>
-            <input type="hidden" name="insertID" value="<?php echo $insertID; ?>" />
-            <input type="hidden" name="next_question" value="<?php echo $curr_question; ?>" /> 
-            <input type='hidden' name='page_id' value='<?php echo $page_id; ?>' />
-            <input type='hidden' name='wpcresID' value='<?php echo $wpcresID; ?>' /> <br>
-            <input type="submit" name="essay_submit" id="essay_submit" value="Save Essay Response" />
-        </form>
-    <?php } ?>
+<?php if ($curr_question <= $meta_count - 1) { ?>
+<hr />
+<h3>Your Answer</h3>
+<p>To edit your answer, please revise the text below and click "Save Essay Response".<br><strong>You must click "Save
+        Essay Response" to save any changes to your essay.</strong></p>
+<form name="scaffold_edit_response_form" method="post" enctype="multipart/form-data" action=""
+    id="scaffold_edit_response_form">
+    <input type="submit" name="essay_submit" value="Save Essay Response" />
+    <?php wp_editor($wpcres_response, 'wpcres_response', $settings); ?>
+    <?php wp_nonce_field('wpcres_nonce', 'wpcres_nonce'); ?>
+    <input type="hidden" name="insertID"
+        value="<?php echo $insertID; ?>" />
+    <input type="hidden" name="next_question"
+        value="<?php echo $curr_question; ?>" />
+    <input type='hidden' name='page_id'
+        value='<?php echo $page_id; ?>' />
+    <input type='hidden' name='wpcresID'
+        value='<?php echo $wpcresID; ?>' /> <br>
+    <input type="submit" name="essay_submit" id="essay_submit" value="Save Essay Response" />
+</form>
+<?php } ?>
 
-    <?php
+<?php
     $responseSQL = "SELECT `scaffoldID`, `responseID`, `question`, `response` FROM `$scaffold_table` WHERE `responseID` = '$insertID'";
     $responses = $wpdb->get_results($responseSQL);
 
-    if ($responses != NULL) {
+    if ($responses != null) {
         echo "<hr>\r\n";
         echo "<h3>Your responses</h3>\r\n";
         echo "<ol >\r\n";
@@ -234,9 +246,10 @@ echo "<p>" . $page_object->post_content . "</p>";
     ?>
 
 <?php } else { ?>
-    <h3>Your Submitted Response</h3>
-    <p><?php echo $wpcres_response; ?></p>
-    <?php
+<h3>Your Submitted Response</h3>
+<p><?php echo $wpcres_response; ?>
+</p>
+<?php
     $send_email = get_option("wpcres_user_email_enable");
 
     if ($send_email) {
@@ -278,7 +291,6 @@ function get_meta_data($id) {
  * Throw application errors
  * @return WP_Error
  */
-function throw_application_error(){
-    return new WP_Error( 'err_responseID', "Database Error!  Unable to retrieve response ID!" );
+function throw_application_error() {
+    return new WP_Error('err_responseID', "Database Error!  Unable to retrieve response ID!");
 }
-?>

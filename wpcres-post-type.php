@@ -1,9 +1,9 @@
 <?php
 /*
  * wpcres-post-type.php
- * 
+ *
  * This code defines the custom post type for wpCRES assignments.
- * 
+ *
  * @author Shawn Carnley <Shawn.Carnley@gatech.edu>
  * @version 1.0
  * @package wpCRES
@@ -29,4 +29,3 @@ register_post_type('wpcres_assignment', array(
     'taxonomies' => array(''),
     'menu_icon' => plugins_url('images/book-16x16.png', WPCRES_MAIN_PLUGIN_FILE),
     'has_archive' => true));
-?>

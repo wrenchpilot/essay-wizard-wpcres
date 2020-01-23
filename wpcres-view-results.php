@@ -1,10 +1,10 @@
 <?php
 /*
  * wpcres-view-results.php
- * 
- * This file implements the ability to review user responses by the 
- * administrator.  Based on code from "Custom List Table Example" by 
- * Matt Van Andel <http://www.mattvanandel.com>.  
+ *
+ * This file implements the ability to review user responses by the
+ * administrator.  Based on code from "Custom List Table Example" by
+ * Matt Van Andel <http://www.mattvanandel.com>.
  *
  * @author Shawn Carnley <Shawn.Carnley@gatech.edu>
  * @version 1.0
@@ -13,12 +13,11 @@
 
 // Include the WP_List_Table class
 if (!class_exists('WP_List_Table')) {
-    require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+    require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
 }
 
 class WPCRES_Response_Table extends WP_List_Table {
-
-    function __construct() {
+    public function __construct() {
         global $wpdb, $page;
 
         parent::__construct(array(
@@ -28,8 +27,7 @@ class WPCRES_Response_Table extends WP_List_Table {
         ));
     }
 
-    function column_default($item, $column_name) {
-
+    public function column_default($item, $column_name) {
         switch ($column_name) {
             case 'responseID':
                 return $item[$column_name];
@@ -47,11 +45,11 @@ class WPCRES_Response_Table extends WP_List_Table {
         }
     }
 
-    function column_responseID($item) {
+    public function column_responseID($item) {
 
         //Build row actions
         $actions = array(
-            //'edit' => '<a href="?post_type='.$_REQUEST['post_type'].'&page=' . $_REQUEST['page'] . '&action=edit&responseID=' . $item['responseID'] . '">Edit</a>',        
+            //'edit' => '<a href="?post_type='.$_REQUEST['post_type'].'&page=' . $_REQUEST['page'] . '&action=edit&responseID=' . $item['responseID'] . '">Edit</a>',
             'view' => '<a href="?post_type=' . $_REQUEST['post_type'] . '&page=' . $_REQUEST['page'] . '&action=view&responseID=' . $item['responseID'] . '">View</a>',
             'approv' => '<a href="?post_type=' . $_REQUEST['post_type'] . '&page=' . $_REQUEST['page'] . '&action=approv&responseID=' . $item['responseID'] . '">Approve</a>',
             'reject' => '<a href="?post_type=' . $_REQUEST['post_type'] . '&page=' . $_REQUEST['page'] . '&action=reject&responseID=' . $item['responseID'] . '">Reject</a>',
@@ -62,11 +60,11 @@ class WPCRES_Response_Table extends WP_List_Table {
         return $item['responseID'] . $this->row_actions($actions);
     }
 
-    function column_cb($item) {
+    public function column_cb($item) {
         return '<input type="checkbox" name="responseID[]" value="' . $item['responseID'] . '" />';
     }
 
-    function get_columns() {
+    public function get_columns() {
         $columns = array(
             'cb' => '<input type="checkbox" />', //Render a checkbox instead of text
             'responseID' => 'Response ID',
@@ -78,7 +76,7 @@ class WPCRES_Response_Table extends WP_List_Table {
         return $columns;
     }
 
-    function get_sortable_columns() {
+    public function get_sortable_columns() {
         $sortable_columns = array(
             'responseID' => array('responseID', false),
             'userID' => array('userID', false), //true means it's already sorted
@@ -89,7 +87,7 @@ class WPCRES_Response_Table extends WP_List_Table {
         return $sortable_columns;
     }
 
-    function get_bulk_actions() {
+    public function get_bulk_actions() {
         $actions = array(
             'approv' => 'Approve',
             'reject' => 'Reject',
@@ -99,12 +97,12 @@ class WPCRES_Response_Table extends WP_List_Table {
         return $actions;
     }
 
-    function process_bulk_action() {
+    public function process_bulk_action() {
         global $wpdb;
         $table_name = get_option('wpcres_table_name', $wpdb->prefix . "wpcres_responses");
         $scaffold_table = get_option('wpcres_scaffold_table', $wpdb->prefix . "wpcres_scaffold");
 
-        $responseID = ( is_array($_REQUEST['responseID']) ) ? $_REQUEST['responseID'] : array($_REQUEST['responseID']);
+        $responseID = (is_array($_REQUEST['responseID'])) ? $_REQUEST['responseID'] : array($_REQUEST['responseID']);
 
         //Detect when a bulk action is being triggered...
         if ('delete' === $this->current_action()) {
@@ -272,7 +270,7 @@ class WPCRES_Response_Table extends WP_List_Table {
         }
     }
 
-    function prepare_items() {
+    public function prepare_items() {
         global $wpdb;
         $screen = get_current_screen();
         $table_name = get_option('wpcres_table_name', $wpdb->prefix . "wpcres_responses");
@@ -325,12 +323,11 @@ class WPCRES_Response_Table extends WP_List_Table {
             'total_pages' => ceil($total_items / $per_page)   //WE have to calculate the total number of pages
         ));
     }
-
 }
 
-add_action('admin_menu', function() {
-            add_submenu_page('edit.php?post_type=wpcres_assignment', 'Responses', 'Responses', 'manage_options', 'wpcres-view-responses', 'render_response_page');
-        });
+add_action('admin_menu', function () {
+    add_submenu_page('edit.php?post_type=wpcres_assignment', 'Responses', 'Responses', 'manage_options', 'wpcres-view-responses', 'render_response_page');
+});
 
 function create_zip($files = array(), $destination = '', $overwrite = false) {
     //if the zip file already exists and overwrite is false, return false
@@ -407,49 +404,60 @@ function render_response_page() {
         'post_status' => 'publish',
         'orderby' => 'post_date',
         'order' => 'ASC'
-            ));
-    ?>
-    <div class="wrap">
-        <div id="icon-edit-pages" class="icon32"><br/></div>
-        <h2>wpCRES Responses</h2>
-        <form method="post">
-            <p class="search-box">
-                Status Filter
-                <select name="status_filter" onchange="submit();">
-                    <option value=""></option>
-                    <option value="In Progress" <?php echo ($_REQUEST['status_filter'] == "In Progress") ? "selected" : ""; ?>>In Progress</option>
-                    <option value="Submitted" <?php echo ($_REQUEST['status_filter'] == "Submitted") ? "selected" : ""; ?>>Submitted</option>
-                    <option value="Approved" <?php echo ($_REQUEST['status_filter'] == "Approved") ? "selected" : ""; ?>>Approved</option>
-                    <option value="Rejected" <?php echo ($_REQUEST['status_filter'] == "Rejected") ? "selected" : ""; ?>>Rejected</option>
-                </select>
-            </p>
-            <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
-            <input type="hidden" name="assignment_filter" value="<?php echo $_REQUEST['assignment_filter']; ?>" />
-        </form>
+            )); ?>
+<div class="wrap">
+    <div id="icon-edit-pages" class="icon32"><br /></div>
+    <h2>wpCRES Responses</h2>
+    <form method="post">
+        <p class="search-box">
+            Status Filter
+            <select name="status_filter" onchange="submit();">
+                <option value=""></option>
+                <option value="In Progress" <?php echo ($_REQUEST['status_filter'] == "In Progress") ? "selected" : ""; ?>>In
+                    Progress</option>
+                <option value="Submitted" <?php echo ($_REQUEST['status_filter'] == "Submitted") ? "selected" : ""; ?>>Submitted
+                </option>
+                <option value="Approved" <?php echo ($_REQUEST['status_filter'] == "Approved") ? "selected" : ""; ?>>Approved
+                </option>
+                <option value="Rejected" <?php echo ($_REQUEST['status_filter'] == "Rejected") ? "selected" : ""; ?>>Rejected
+                </option>
+            </select>
+        </p>
+        <input type="hidden" name="page"
+            value="<?php echo $_REQUEST['page'] ?>" />
+        <input type="hidden" name="assignment_filter"
+            value="<?php echo $_REQUEST['assignment_filter']; ?>" />
+    </form>
 
-        <form method="post">
-            <p class="search-box">
-                Assignment Filter
-                <select name="assignment_filter" onchange="submit();">
-                    <option value=""></option>
-                    <?php foreach ($assignments as $a){ ?>
-                    <option value="<?php echo $a->ID; ?>" <?php echo ($_REQUEST['assignment_filter'] == $a->ID) ? "selected" : ""; ?>><?php echo $a->post_title; ?></option>
-                    <?php } ?>
-                </select>
-            </p>
-            <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
-            <input type="hidden" name="status_filter" value="<?php echo $_REQUEST['status_filter']; ?>" />
-        </form>
+    <form method="post">
+        <p class="search-box">
+            Assignment Filter
+            <select name="assignment_filter" onchange="submit();">
+                <option value=""></option>
+                <?php foreach ($assignments as $a) { ?>
+                <option value="<?php echo $a->ID; ?>" <?php echo ($_REQUEST['assignment_filter'] == $a->ID) ? "selected" : ""; ?>><?php echo $a->post_title; ?>
+                </option>
+                <?php } ?>
+            </select>
+        </p>
+        <input type="hidden" name="page"
+            value="<?php echo $_REQUEST['page'] ?>" />
+        <input type="hidden" name="status_filter"
+            value="<?php echo $_REQUEST['status_filter']; ?>" />
+    </form>
 
-        <!-- <form method="post">
-        //    <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>" />
-        //    <?php $wpcresListTable->search_box('search', 'search_id'); ?>
-        //</form>
-        //-->
-        <form id="responseID-filter" method="get">
-            <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>" />
-            <input type="hidden" name="post_type" value="wpcres_assignment" />
-            <?php $wpcresListTable->display() ?>
-        </form>
-    </div>
-<?php } ?>
+    <!-- <form method="post">
+        //    <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>"
+    />
+    // <?php $wpcresListTable->search_box('search', 'search_id'); ?>
+    //</form>
+    //-->
+    <form id="responseID-filter" method="get">
+        <input type="hidden" name="page"
+            value="<?php echo $_REQUEST['page']; ?>" />
+        <input type="hidden" name="post_type" value="wpcres_assignment" />
+        <?php $wpcresListTable->display() ?>
+    </form>
+</div>
+<?php
+}
